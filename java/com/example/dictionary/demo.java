@@ -23,29 +23,78 @@ public class demo extends Application {
     private TextField textField;
     private WebView webView;
     private WebEngine webEngine;
-    String ENGVIE_directory = "E:\\Coding\\demo\\src\\main\\resources\\com\\example\\demo\\dictionary.txt";
+    FXMLLoader loader;
+    String ENGVIE_directory = "E:\\Coding\\Dictionary\\src\\main\\resources\\com\\example\\dictionary\\eng_vie.txt";
 
     public void start(Stage primaryStage) throws Exception {
-        this.primaryStage = primaryStage;
-        primaryStage.setTitle("Cửa sổ chính");
+        // Load tệp FXML
+        loader = new FXMLLoader(getClass().getResource("helloConsole.fxml"));
+        Parent root = loader.load();
+        Button ENGVIE = (Button) loader.getNamespace().get("ENGVIE");
+        Button VIEENG = (Button) loader.getNamespace().get("VIEENG");
+        ENGVIE.setOnAction(e -> EnglishTranslation()); {
+            primaryStage.close();
+        }
+        VIEENG.setOnAction(e -> VietNamTranslation());
+        // Tạo scene
+        Scene scene = new Scene(root, 800, 600);
 
-        Button okButton = new Button("OK");
-        okButton.setOnAction(e -> openSecondaryWindow());
-
-        StackPane primaryLayout = new StackPane();
-        primaryLayout.getChildren().addAll(okButton);
-        Scene primaryScene = new Scene(primaryLayout, 300, 200);
-        primaryStage.setScene(primaryScene);
-
+        // Thiết lập stage (cửa sổ)
+        primaryStage.setTitle("Ứng dụng từ điển");
+        primaryStage.setScene(scene);
         primaryStage.show();
+        /*Stage newStage = new Stage();
+        newStage.setTitle("VIE-ENG DICTIONARY");
+        loader = new FXMLLoader(getClass().getResource("helloConsole.fxml"));
+        Button ENGVIE = (Button) loader.getNamespace().get("ENGVIE");
+        Button VIEENG = (Button) loader.getNamespace().get("VIEENG");
+        ENGVIE.setOnAction(e -> EnglishTranslation());
+        VIEENG.setOnAction(e -> VietNamTranslation());
+        try {
+            Parent root = loader.load();
+            Scene WelcomeConsole = new Scene(root,800,600);
+            newStage.setScene(WelcomeConsole);
+            newStage.show();
+        }
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
+        }*/
     }
 
-    private void openSecondaryWindow() {
+
+    private void EnglishTranslation() {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Tra từ Tiếng Anh");
+
+        // Load file FXML
+        loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+
+        // Lấy controller của FXML (nếu cần)
+        try  {
+            Parent root = loader.load();
+            textField = (TextField) loader.getNamespace().get("SearchTaskbar");
+            //Button searchButton = new Button("Tìm kiếm");
+            Button searchButton = (Button) loader.getNamespace().get("searchButton");
+            searchButton.setOnAction(e ->loadWebPage());
+            webView = (WebView) loader.getNamespace().get("translation");
+            webEngine = webView.getEngine();
+            //VBox secondaryLayout = new VBox(10);
+            //secondaryLayout.getChildren().addAll(textField, searchButton, webView);
+            Scene secondaryScene = new Scene(root, 800, 600);
+            secondaryStage.setScene(secondaryScene);
+            secondaryStage.show();
+
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    private void VietNamTranslation() {
         secondaryStage = new Stage();
         secondaryStage.setTitle("Cửa sổ thứ hai");
 
         // Load file FXML
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
 
         // Lấy controller của FXML (nếu cần)
         try  {
