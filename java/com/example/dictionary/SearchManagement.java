@@ -47,8 +47,7 @@ public class SearchManagement {
             searchButton.setOnAction(e -> loadWebPage());
             webView = (WebView) loader.getNamespace().get("translation");
             webEngine = webView.getEngine();
-
-            AutoCompletionBinding<String> auto = TextFields.bindAutoCompletion(textField, new Callback<AutoCompletionBinding.ISuggestionRequest, Collection<String>>() {
+            /*AutoCompletionBinding<String> auto = TextFields.bindAutoCompletion(textField, new Callback<AutoCompletionBinding.ISuggestionRequest, Collection<String>>() {
                 @Override
                 public Collection<String> call(AutoCompletionBinding.ISuggestionRequest iSuggestionRequest) {
                     String userText = iSuggestionRequest.getUserText().toLowerCase();
@@ -58,8 +57,7 @@ public class SearchManagement {
 
                     return suggestions;
                 }
-            });
-
+            });*/
             Scene secondaryScene = new Scene(root, 800, 600);
             secondaryStage.setScene(secondaryScene);
             secondaryStage.show();
